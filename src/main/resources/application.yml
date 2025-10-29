@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: interview
+  cache:
+    type: caffeine # Redis, Hezelcast etc. should be used for distributed env
+    cache-names: scoredRepos
+    caffeine:
+      spec: maximumSize=1000,expireAfterWrite=1h
+
+redcare:
+  interview:
+    git-api:
+      base-url: https://api.github.com/
+    calculation:
+      coefficients:
+        stars: 0.5
+        forks: 0.3
+        updated: 0.2
+
+resilience4j.ratelimiter:
+  instances:
+    gitRepoScoring:
+      limit-for-period: 1      # max 30 calls / minute according to API docs https://docs.github.com/en/rest/search/search?apiVersion=2022-11-28, so 1 call every 2 seconds
+      limit-refresh-period: 2s
+      timeout-duration: 0

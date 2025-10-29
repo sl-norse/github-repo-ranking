@@ -1,0 +1,7 @@
+resilience4j.ratelimiter:
+  instances:
+    gitRepoScoring:
+      enabled: true
+      limit-for-period: 5
+      limit-refresh-period: 1s
+      timeout-duration: 0
